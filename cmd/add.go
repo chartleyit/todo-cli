@@ -58,12 +58,3 @@ func init() {
 	addCmd.Flags().IntVarP(&parentId, "parent", "p", 0, "Parent task id")
 
 }
-
-func initDataStore() {
-	switch format {
-	case "json":
-		fmt.Errorf("json not implemented yet")
-	default:
-		ds = &dataStore.CSVData{FilePath: file}
-	}
-}

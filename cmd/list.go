@@ -17,8 +17,6 @@ var listCmd = &cobra.Command{
 	Short: "Print todo list to terminal",
 	Long:  `More detail with example`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
-
 		ds = &dataStore.CSVData{FilePath: file}
 		todos, err := ds.Load()
 		if err != nil {
