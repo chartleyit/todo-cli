@@ -4,7 +4,7 @@ import (
 	"github.com/chartleyit/todo-cli/models"
 )
 
-type Data interface {
+type DataHandler interface {
 	Load() ([]*models.TodoItem, error)
 	Save([]*models.TodoItem) error
 }

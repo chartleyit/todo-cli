@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var ds dataStore.Data
+var ds dataStore.DataHandler
 var parentId int
 
 // addCmd represents the add command
@@ -21,7 +21,6 @@ var addCmd = &cobra.Command{
 	Short: "add subcommand adds a new item to your todo list",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
 		// TODO look at viper config accessing
 
 		var todo models.TodoItem
