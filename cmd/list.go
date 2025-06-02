@@ -26,6 +26,9 @@ var listCmd = &cobra.Command{
 		}
 
 		t := ui.New()
+		t.AddHeader(
+			"ID", "Task", "Status", "Created", "Due",
+		)
 		for _, todo := range todos {
 			t.AddLine(
 				todo.Id,

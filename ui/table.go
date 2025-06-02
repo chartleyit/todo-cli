@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"os"
+	"strings"
 	"text/tabwriter"
 )
 
@@ -17,11 +18,14 @@ func New() *TabTable {
 	}
 }
 
-// TODO handle header lines
-
 func (t *TabTable) AddLine(args ...interface{}) {
 	formatString := t.buildFormatString(args)
 	fmt.Fprintf(t.writer, formatString, args...)
+}
+
+func (t *TabTable) AddHeader(args ...interface{}) {
+	t.AddLine(args...)
+	t.addSeparator(args)
 }
 
 func (t *TabTable) Print() {
@@ -38,4 +42,17 @@ func (t *TabTable) buildFormatString(args []interface{}) string {
 	}
 	b.WriteString("\n")
 	return b.String()
+}
+
+func (t *TabTable) addSeparator(args []interface{}) {
+	var b bytes.Buffer
+	for idx, arg := range args {
+		length := len(fmt.Sprintf("%v", arg))
+		b.WriteString(strings.Repeat("-", length))
+		if idx+1 != len(args) {
+			b.WriteString("\t")
+		}
+	}
+	b.WriteString("\n")
+	b.WriteTo(t.writer)
 }
