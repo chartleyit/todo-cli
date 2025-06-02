@@ -19,3 +19,7 @@ type TodoItem struct {
 	Due         time.Time `json:"due"`
 	Status      Status    `json:"status"`
 }
+
+func (s Status) String() string {
+	return [...]string{"ToDo", "InProgress", "Done"}[s]
+}
