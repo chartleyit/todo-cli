@@ -25,7 +25,7 @@ var addCmd = &cobra.Command{
 
 		var todo models.TodoItem
 
-		ds = &dataStore.CSVData{FilePath: file}
+		ds = dataStore.New(file)
 		todos, err := ds.Load()
 		if err != nil {
 			fmt.Println(err)
@@ -57,13 +57,4 @@ func init() {
 	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	addCmd.Flags().IntVarP(&parentId, "parent", "p", 0, "Parent task id")
 
-}
-
-func initDataStore() {
-	switch format {
-	case "json":
-		fmt.Errorf("json not implemented yet")
-	default:
-		ds = &dataStore.CSVData{FilePath: file}
-	}
 }

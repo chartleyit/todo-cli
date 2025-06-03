@@ -17,6 +17,7 @@ type TodoItem struct {
 	Task        string    `json:"task"`
 	CreatedAt   time.Time `json:"created"`
 	Due         time.Time `json:"due"`
+	Done        time.Time `json:"done"`
 	Status      Status    `json:"status"`
 }
 
