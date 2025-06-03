@@ -11,6 +11,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	tformat = "2006-01-02 03:04"
+)
+
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
@@ -25,15 +29,27 @@ var listCmd = &cobra.Command{
 
 		t := ui.New()
 		t.AddHeader(
-			"ID", "Task", "Status", "Created", "Due",
+			"ID", "Task", "Status", "Created", "Due", "Done",
 		)
 		for _, todo := range todos {
+			var due string
+			var done string
+			created := todo.CreatedAt.Format(tformat)
+			if !todo.Due.IsZero() {
+				due = todo.Due.Format(tformat)
+			}
+			if !todo.Done.IsZero() {
+				done = todo.Done.Format(tformat)
+			}
+
 			t.AddLine(
+				// TODO centralize this expansion to allow for modularly changing
 				todo.Id,
 				todo.Task,
 				todo.Status.String(),
-				todo.CreatedAt.Format("2006-01-02 03:04"),
-				todo.Due.Format("2006-01-02 03:04"),
+				created,
+				due,
+				done,
 			)
 		}
 		t.Print()

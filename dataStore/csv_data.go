@@ -130,10 +130,15 @@ func decodeCSVtodo(f *os.File) ([]*models.TodoItem, error) {
 			return nil, fmt.Errorf("unable to parse due time, %s", record[5])
 		}
 
-		status, err := strconv.Atoi(record[6])
+		done, err := time.Parse(time.RFC3339, record[6])
+		if err != nil {
+			return nil, fmt.Errorf("unable to parse due time, %s", record[6])
+		}
+
+		status, err := strconv.Atoi(record[7])
 		if err != nil {
 			fmt.Println(record)
-			return nil, fmt.Errorf("failed to convert status to int, %s", record[6])
+			return nil, fmt.Errorf("failed to convert status to int, %s", record[7])
 		}
 
 		todo := &models.TodoItem{
@@ -143,6 +148,7 @@ func decodeCSVtodo(f *os.File) ([]*models.TodoItem, error) {
 			CreatedAt: createdAt,
 			Due:       due,
 			Status:    models.Status(status),
+			Done:      done,
 		}
 
 		todos = append(todos, todo)
@@ -164,6 +170,7 @@ func encodeCSVtodo(todos []*models.TodoItem) [][]string {
 			todo.Task,
 			todo.CreatedAt.Format(time.RFC3339),
 			todo.Due.Format(time.RFC3339),
+			todo.Done.Format(time.RFC3339),
 			strconv.Itoa(int(todo.Status)),
 		}
 		records = append(records, record)
